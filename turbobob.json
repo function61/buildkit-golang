@@ -1,0 +1,11 @@
+{
+	"for_description_of_this_file_see": "https://github.com/function61/turbobob",
+	"version_major": 1,
+	"project_name": "buildkit-golang",
+	"docker_images": [
+		{
+			"image": "fn61/buildkit-golang",
+			"dockerfile_path": "Dockerfile"
+		}
+	]
+}
