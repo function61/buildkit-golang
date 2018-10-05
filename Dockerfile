@@ -9,4 +9,6 @@ RUN curl --fail --location -o /go/bin/dep https://github.com/golang/dep/releases
 	&& curl --location --fail -o /usr/local/bin/mc https://dl.minio.io/client/mc/release/linux-amd64/mc \
 	&& chmod +x /usr/local/bin/mc
 
+ADD build-common.sh /build-common.sh
+
 # minio client seems to be always pointing to latest..
