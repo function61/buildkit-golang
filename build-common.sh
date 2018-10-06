@@ -59,6 +59,11 @@ gobuild() {
 	local projectroot="$(pwd)"
 	local dir_in_which_to_compile="${COMPILE_IN_DIRECTORY:-.}"
 
+	if [ "${BINARY_NAME:-}" = "" ]; then
+		echo "binary build not requested"
+		return
+	fi
+
 	# compile statically so this works on Alpine Linux that doesn't have glibc
 	(cd "$dir_in_which_to_compile" && GOOS="$os" GOARCH="$architecture" CGO_ENABLED=0 go build \
 		-ldflags "-X main.version=$FRIENDLY_REV_ID -extldflags \"-static\"" \
