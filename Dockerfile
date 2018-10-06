@@ -6,9 +6,7 @@ RUN curl --fail --location -o /go/bin/dep https://github.com/golang/dep/releases
 	&& chmod +x /go/bin/depth \
 	&& curl --location --fail -o /usr/local/bin/jfrog-cli "https://bintray.com/jfrog/jfrog-cli-go/download_file?file_path=1.20.1%2Fjfrog-cli-linux-amd64%2Fjfrog" \
 	&& chmod +x /usr/local/bin/jfrog-cli \
-	&& curl --location --fail -o /usr/local/bin/mc https://dl.minio.io/client/mc/release/linux-amd64/mc \
+	&& curl --location --fail -o /usr/local/bin/mc https://dl.minio.io/client/mc/release/linux-amd64/archive/mc.RELEASE.2018-09-26T00-42-43Z \
 	&& chmod +x /usr/local/bin/mc
 
 ADD build-common.sh /build-common.sh
-
-# minio client seems to be always pointing to latest..
