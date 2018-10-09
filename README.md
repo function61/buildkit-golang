@@ -1,5 +1,5 @@
-[![Build Status](https://travis-ci.org/function61/buildkit-golang.svg?branch=master)](https://travis-ci.org/function61/buildkit-golang)
-[![Download](https://img.shields.io/docker/pulls/fn61/buildkit-golang.svg)](https://hub.docker.com/r/fn61/buildkit-golang/)
+[![Build Status](https://img.shields.io/travis/function61/buildkit-golang.svg?style=for-the-badge)](https://travis-ci.org/function61/buildkit-golang)
+[![Download](https://img.shields.io/docker/pulls/fn61/buildkit-golang.svg?style=for-the-badge)](https://hub.docker.com/r/fn61/buildkit-golang/)
 
 Golang buildkit with shared low-level tools / build process required for Go projects of some quality.
 
