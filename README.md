@@ -12,7 +12,7 @@ Contains
 - Go build tools
 - Cross compiles to Linux-amd64, Linux-arm and Windows-amd64
 - Runs any code generators you might have
-- Runs static analysis (`$ go vet`)
+- Runs static analysis (`$ go vet`), optional support for gometalinter
 - Runs your unit tests (`$ go test`)
 - [dep](https://github.com/golang/dep) for dependency management
 	- dep is on the way out, but before vgo is declared for production usage we'll use dep,
