@@ -65,8 +65,9 @@ gobuild() {
 	fi
 
 	# compile statically so this works on Alpine Linux that doesn't have glibc
+	# DEPRECATED: main.version: supporting it for a transition period to gokit/dynversion
 	(cd "$dir_in_which_to_compile" && GOOS="$os" GOARCH="$architecture" CGO_ENABLED=0 go build \
-		-ldflags "-X main.version=$FRIENDLY_REV_ID -extldflags \"-static\"" \
+		-ldflags "-extldflags \"-static\" -X github.com/function61/gokit/dynversion.Version=$FRIENDLY_REV_ID -X main.version=$FRIENDLY_REV_ID" \
 		-o "$projectroot/rel/${BINARY_NAME}${binSuffix}")
 }
 
