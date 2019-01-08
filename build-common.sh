@@ -5,10 +5,16 @@ fn_exists() {
 	[ `type -t $1`"" == 'function' ]
 }
 
+heading() {
+	local text="$1"
+
+	echo "# $text"
+}
+
 buildstep() {
 	local fn="$1"
 
-	echo "# $fn"
+	heading "$fn"
 
 	"$fn"
 
@@ -51,10 +57,21 @@ staticAnalysis() {
 	go vet ./...
 }
 
-gobuild() {
-	local os="$1"
-	local architecture="$2"
-	local binSuffix="$3"
+# maybe = if env var like BUILD_LINUX_AMD64 != true, skip build
+gobuildmaybe() {
+	local buildEnvVarName="$1"
+	local os="$2"
+	local architecture="$3"
+	local binSuffix="$4"
+
+	local buildEnvVarContent="${!buildEnvVarName}"
+
+	heading "build $os-$architecture"
+
+	if [ ! "$buildEnvVarContent" = "true" ]; then
+		echo "Skipping because $buildEnvVarContent != true"
+		return
+	fi
 
 	local projectroot="$(pwd)"
 	local dir_in_which_to_compile="${COMPILE_IN_DIRECTORY:-.}"
@@ -75,23 +92,6 @@ gobuild() {
 	(cd "$dir_in_which_to_compile" && GOOS="$os" GOARCH="$architecture" CGO_ENABLED=0 go build \
 		-ldflags "-extldflags \"-static\" -X $vendorprefix/github.com/function61/gokit/dynversion.Version=$FRIENDLY_REV_ID" \
 		-o "$projectroot/rel/${BINARY_NAME}${binSuffix}")
-}
-
-buildLinuxArm() {
-	gobuild "linux" "arm" "_linux-arm"
-}
-
-buildLinuxAmd64() {
-	gobuild "linux" "amd64" "_linux-amd64"
-}
-
-buildWindowsAmd64() {
-	if [ ! "${INCLUDE_WINDOWS:-}" = "true" ]; then
-		echo "windows build not requested"
-		return
-	fi
-
-	gobuild "windows" "amd64" ".exe"
 }
 
 uploadBuildArtefactsToBintray() {
@@ -146,11 +146,9 @@ standardBuildProcess() {
 
 	buildstep unitTests
 
-	buildstep buildLinuxAmd64
-
-	buildstep buildLinuxArm
-
-	buildstep buildWindowsAmd64
+	gobuildmaybe "BUILD_LINUX_AMD64" "linux" "amd64" "_linux-amd64"
+	gobuildmaybe "BUILD_LINUX_ARM" "linux" "arm" "_linux-arm"
+	gobuildmaybe "BUILD_WINDOWS_AMD64" "windows" "amd64" ".exe"
 
 	buildstep uploadBuildArtefactsToBintray
 }
