@@ -57,19 +57,19 @@ staticAnalysis() {
 	go vet ./...
 }
 
-# maybe = if env var like BUILD_LINUX_AMD64 != true, skip build
+# "maybe" = if env var like BUILD_LINUX_AMD64 != true, skip build
 gobuildmaybe() {
 	local buildEnvVarName="$1"
 	local os="$2"
 	local architecture="$3"
 	local binSuffix="$4"
 
-	local buildEnvVarContent="${!buildEnvVarName}"
+	local buildEnvVarContent="${!buildEnvVarName:-}"
 
 	heading "build $os-$architecture"
 
 	if [ ! "$buildEnvVarContent" = "true" ]; then
-		echo "Skipping because $buildEnvVarContent != true"
+		echo "Skipping because $buildEnvVarName != true"
 		return
 	fi
 
