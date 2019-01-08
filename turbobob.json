@@ -5,7 +5,8 @@
 	"docker_images": [
 		{
 			"image": "fn61/buildkit-golang",
-			"dockerfile_path": "Dockerfile"
+			"dockerfile_path": "Dockerfile",
+			"auth_type": "creds_from_env"
 		}
 	]
 }
