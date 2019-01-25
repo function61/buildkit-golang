@@ -94,6 +94,12 @@ gobuildmaybe() {
 		-o "$projectroot/rel/${BINARY_NAME}${binSuffix}")
 }
 
+binaries() {
+	gobuildmaybe "BUILD_LINUX_AMD64" "linux" "amd64" "_linux-amd64"
+	gobuildmaybe "BUILD_LINUX_ARM" "linux" "arm" "_linux-arm"
+	gobuildmaybe "BUILD_WINDOWS_AMD64" "windows" "amd64" ".exe"
+}
+
 uploadBuildArtefactsToBintray() {
 	if [ ! "${PUBLISH_ARTEFACTS:-}" = "true" ]; then
 		echo "publish not requested"
@@ -131,6 +137,7 @@ removePreviousBuildArtefacts() {
 	mkdir rel
 }
 
+
 standardBuildProcess() {
 	buildstep removePreviousBuildArtefacts
 
@@ -146,9 +153,7 @@ standardBuildProcess() {
 
 	buildstep unitTests
 
-	gobuildmaybe "BUILD_LINUX_AMD64" "linux" "amd64" "_linux-amd64"
-	gobuildmaybe "BUILD_LINUX_ARM" "linux" "arm" "_linux-arm"
-	gobuildmaybe "BUILD_WINDOWS_AMD64" "windows" "amd64" ".exe"
+	buildstep binaries
 
 	buildstep uploadBuildArtefactsToBintray
 }
