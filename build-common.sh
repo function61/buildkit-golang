@@ -45,7 +45,7 @@ checkFormatting() {
 	fi
 }
 
-unitTests() {
+tests() {
 	go test ./...
 }
 
@@ -118,7 +118,7 @@ standardBuildProcess() {
 
 	buildstep staticAnalysis
 
-	buildstep unitTests
+	buildstep tests
 
 	buildstep binaries
 }
