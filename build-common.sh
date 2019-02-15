@@ -106,6 +106,16 @@ removePreviousBuildArtefacts() {
 }
 
 standardBuildProcess() {
+	# skips steps that aren't usually strictly necessary when doing minor modifications.
+	# however, if you encounter a bug, remember to run full build for static analysis etc., tests etc.
+	if [ -n "${FASTBUILD:-}" ]; then
+		buildstep removePreviousBuildArtefacts
+
+		buildstep binaries
+
+		return
+	fi
+
 	buildstep removePreviousBuildArtefacts
 
 	buildstep downloadDependencies
