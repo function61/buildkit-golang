@@ -1,4 +1,4 @@
-FROM golang:1.11.1
+FROM golang:1.12.1
 
 RUN curl --fail --location -o /go/bin/dep https://github.com/golang/dep/releases/download/v0.5.0/dep-linux-amd64 \
 	&& chmod +x /go/bin/dep \
