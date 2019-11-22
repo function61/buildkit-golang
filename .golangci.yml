@@ -1,0 +1,21 @@
+
+run:
+  skip-files:
+    # golangci-lint doesn't recognize our generated files (*.gen.go)
+    - ".+\\.gen\\.go$"
+
+linters:
+  disable-all: true
+  enable:
+    - deadcode
+    - errcheck
+    - gosimple
+    - govet
+    - ineffassign
+    - staticcheck
+    - structcheck
+    - typecheck
+    - unused
+    - unused
+    - varcheck
+    - scopelint

@@ -54,7 +54,12 @@ codeGeneration() {
 }
 
 staticAnalysis() {
-	go vet ./...
+	if [ ! -f .golangci.yml ]; then
+		cp /.golangci.yml .
+	fi
+
+	# golangci-lint includes what "$ go vet ./..." would do but also more
+	golangci-lint run
 }
 
 # "maybe" = if env var like BUILD_LINUX_AMD64 != true, skip build
