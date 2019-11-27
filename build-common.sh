@@ -131,9 +131,11 @@ standardBuildProcess() {
 	# formatting test, and static analysis doesn't pass without it
 	buildstep codeGeneration
 
+	buildstep binaries
+
+	# static analysis to go after main compilation, because if there are serious compilation
+	# errors the compiler usually gives more clear error messages
 	buildstep staticAnalysis
 
 	buildstep tests
-
-	buildstep binaries
 }
