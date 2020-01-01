@@ -103,6 +103,7 @@ binaries() {
 	gobuildmaybe "BUILD_LINUX_AMD64" "linux" "amd64" "_linux-amd64"
 	gobuildmaybe "BUILD_LINUX_ARM" "linux" "arm" "_linux-arm"
 	gobuildmaybe "BUILD_WINDOWS_AMD64" "windows" "amd64" ".exe"
+	gobuildmaybe "BUILD_DARWIN_AMD64" "darwin" "amd64" "_darwin-amd64"
 }
 
 removePreviousBuildArtefacts() {
