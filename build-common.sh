@@ -140,3 +140,17 @@ standardBuildProcess() {
 
 	buildstep tests
 }
+
+function packageLambdaFunction {
+	# run in subshell because we need to change paths
+	(
+		cd rel/
+		cp "${BINARY_NAME}_linux-amd64" "${BINARY_NAME}"
+		rm -f lambdafunc.zip
+		zip lambdafunc.zip "${BINARY_NAME}"
+		rm "${BINARY_NAME}"
+
+		cd ../deployerspec
+		deployer package "$FRIENDLY_REV_ID" ../rel/deployerspec.zip
+	)
+}
