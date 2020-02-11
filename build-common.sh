@@ -27,7 +27,12 @@ buildstep() {
 }
 
 downloadDependencies() {
-	dep ensure
+	# slowly deprecating dep.. farewell old friend :(
+	if [ -z ${USE_LEGACY_DEP+x} ]; then
+		go get -d ./...
+	else
+		dep ensure
+	fi
 }
 
 checkFormatting() {
