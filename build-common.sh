@@ -46,7 +46,7 @@ checkFormatting() {
 }
 
 tests() {
-	go test ./...
+	go test -race ./...
 }
 
 codeGeneration() {
