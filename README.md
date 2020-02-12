@@ -9,15 +9,26 @@ See [Turbo Bob](https://github.com/function61/turbobob) for more details.
 Contains
 --------
 
-- Go build tools
-- Cross compiles to Linux-amd64, Linux-arm and Windows-amd64
-- Runs any code generators you might have
-- Runs static analysis (`$ go vet`), optional support for gometalinter
+- Go build environment
+- Passes build version to your code
+	* Using [gokit/dynversion](https://pkg.go.dev/github.com/function61/gokit/dynversion?tab=doc)
+- Runs static analysis
+	* Uses [golangci-lint](https://github.com/golangci/golangci-lint)
+	  (does what `$ go vet` does + much more)
 - Runs your unit tests (`$ go test`)
-- [dep](https://github.com/golang/dep) for dependency management
-	- dep is on the way out, but before vgo is declared for production usage we'll use dep,
-	  an approach recommended [officially](https://github.com/golang/go/wiki/vgo#current-state)
+	* With race detector enabled
+- Fetches your dependencies
+	* Using Go modules
+	* Supports deprecated [dep](https://github.com/golang/dep) if you specify `USE_LEGACY_DEP`
 - Automatically rejects Go code that is not `$ go fmt`'d
+- Runs any code generators you might have
 - Fully static builds (so works even on Alpine linux which doesn't have standard libc)
-- Supports uploading your build artefacts to [Bintray](https://bintray.com/)
+- Helper for packaging your binary as Lambda function
+- [Deployer](https://github.com/function61/deployer) integration
+	* For packaging `deployerspec.zip` files
 - Provides custom hooks between build steps if you have something special (though this might be a smell)
+- Cross compilation support:
+	* Linux-amd64
+	* Linux-arm
+	* Windows-amd64
+	* macOS-amd64
