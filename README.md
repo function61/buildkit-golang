@@ -22,6 +22,7 @@ Contains
 	* Supports deprecated [dep](https://github.com/golang/dep) if you specify `USE_LEGACY_DEP`
 - Automatically rejects Go code that is not `$ go fmt`'d
 - Runs any code generators you might have
+	* Runs `$ go generate ./...`
 - Fully static builds (so works even on Alpine linux which doesn't have standard libc)
 - Helper for packaging your binary as Lambda function
 - [Deployer](https://github.com/function61/deployer) integration
