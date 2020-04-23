@@ -36,8 +36,10 @@ checkFormatting() {
 	# and vendors are sometimes unformatted
 	local gofmtTargets="${GOFMT_TARGETS:-.}"
 
-	# variable not intentionally quoted so we can give gofmt multiple args
-	local offenders=$(gofmt -l $gofmtTargets)
+	# variable not intentionally quoted so we can give it multiple args
+	# this does same as "gofmt -l ..." (which is fixed by go fmt ./...) but additionally
+	# asserts that imports are grouped
+	local offenders=$(goimports -l $gofmtTargets)
 
 	if [ ! -z "$offenders" ]; then
 		>&2 echo "formatting errors: $offenders"
