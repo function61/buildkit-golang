@@ -88,14 +88,12 @@ gobuildmaybe() {
 
 	local workdir="$(pwd)"
 
-	# FFS https://github.com/golang/go/issues/19000
-	# assume we're at gopath
-	# "/go/src/github.com/function61/james" => "github.com/function61/james/vendor"
-	local vendorprefix="${workdir:8}/vendor"
+	# NOTE: setting the "dynversion.Version" doesn't work when code under vendor/, but seems
+	#       to work now fine with Go modules. https://github.com/golang/go/issues/19000
 
 	# compile statically so this works on Alpine Linux that doesn't have glibc
 	(cd "$dir_in_which_to_compile" && GOOS="$os" GOARCH="$architecture" CGO_ENABLED=0 go build \
-		-ldflags "-extldflags \"-static\" -X $vendorprefix/github.com/function61/gokit/dynversion.Version=$FRIENDLY_REV_ID" \
+		-ldflags "-extldflags \"-static\" -X github.com/function61/gokit/dynversion.Version=$FRIENDLY_REV_ID" \
 		-o "$projectroot/rel/${BINARY_NAME}${binSuffix}")
 }
 
