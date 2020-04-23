@@ -1,4 +1,4 @@
-FROM golang:1.14.1
+FROM golang:1.14.2
 
 # zip for packaging Lambda functions
 
