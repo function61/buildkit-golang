@@ -17,9 +17,7 @@ Contains
 	  (does what `$ go vet` does + much more)
 - Runs your unit tests (`$ go test`)
 	* With race detector enabled
-- Fetches your dependencies
-	* Using Go modules
-	* Supports deprecated [dep](https://github.com/golang/dep) if you specify `USE_LEGACY_DEP`
+- Fetches your dependencies using Go modules
 - Automatically rejects Go code that is not `$ go fmt`'d
 - Runs any code generators you might have
 	* Runs `$ go generate ./...`
