@@ -93,8 +93,13 @@ gobuildmaybe() {
 	# NOTE: setting the "dynversion.Version" doesn't work when code under vendor/, but seems
 	#       to work now fine with Go modules. https://github.com/golang/go/issues/19000
 
+	# GOARM is suggested to be set on cross-compilation situations:
+	#   https://github.com/golang/go/wiki/GoArm
+	# - it doesn't hurt that it's set for when GOARCH is not ARM
+	# - using v6 to be compatible with Raspberry Pi Zero W (& by extension, the original Pi)
+
 	# compile statically so this works on Alpine Linux that doesn't have glibc
-	(cd "$dir_in_which_to_compile" && GOOS="$os" GOARCH="$architecture" CGO_ENABLED=0 go build \
+	(cd "$dir_in_which_to_compile" && GOARM=6 && GOOS="$os" GOARCH="$architecture" CGO_ENABLED=0 go build \
 		-ldflags "-extldflags \"-static\" -X github.com/function61/gokit/dynversion.Version=$FRIENDLY_REV_ID" \
 		-o "$projectroot/rel/${BINARY_NAME}${binSuffix}")
 }
