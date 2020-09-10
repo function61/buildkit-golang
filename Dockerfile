@@ -4,6 +4,7 @@ FROM golang:1.15.2
 
 RUN apt update && apt install -y zip \
 	&& go get golang.org/x/tools/cmd/goimports \
+	&& go get github.com/cheekybits/genny \
 	&& curl --fail --location -o /go/bin/deployer https://dl.bintray.com/function61/dl/deployer/20200228_1738_94153e93/deployer_linux-amd64 \
 	&& chmod +x /go/bin/deployer \
 	&& curl --fail --location -o /go/bin/depth https://github.com/KyleBanks/depth/releases/download/v1.2.1/depth_1.2.1_linux_amd64 \
