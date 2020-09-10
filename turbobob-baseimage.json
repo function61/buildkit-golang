@@ -1,0 +1,11 @@
+{
+	"for_description_of_this_file_see": "https://github.com/function61/turbobob",
+
+	"dev_shell_commands": [
+		{ "command": "goimports -w ." },
+		{ "command": "golangci-lint run" },
+		{ "command": "go generate ./bin" },
+		{ "command": "go test ./..." }
+	],
+	"paths_to_cache": ["/go/pkg"]
+}

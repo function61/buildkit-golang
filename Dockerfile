@@ -9,6 +9,8 @@ RUN apt update && apt install -y zip \
 	&& curl --fail --location -o /go/bin/depth https://github.com/KyleBanks/depth/releases/download/v1.2.1/depth_1.2.1_linux_amd64 \
 	&& chmod +x /go/bin/depth \
 	&& curl --fail --location https://github.com/golangci/golangci-lint/releases/download/v1.24.0/golangci-lint-1.24.0-linux-amd64.tar.gz | tar --strip-components=1 -C /usr/local/bin -xzf - golangci-lint-1.24.0-linux-amd64/golangci-lint \
-	&& echo "FASTBUILD=1 bin/build.sh\ngoimports -w .\ngolangci-lint run\ngo test ./..." >> /root/.bash_history
+	&& true
 
 ADD build-common.sh .golangci.yml /
+
+ADD turbobob-baseimage.json /
