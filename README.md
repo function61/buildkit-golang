@@ -6,12 +6,12 @@ Golang buildkit with shared low-level tools / build process required for Go proj
 See [Turbo Bob](https://github.com/function61/turbobob) for more details.
 
 
-Contains
+Features
 --------
 
 - Go build environment
 - Passes build version to your code
-	* Using [gokit/dynversion](https://pkg.go.dev/github.com/function61/gokit/dynversion?tab=doc)
+	* Using [gokit/dynversion](https://pkg.go.dev/github.com/function61/gokit/app/dynversion?tab=doc)
 - Runs static analysis
 	* Uses [golangci-lint](https://github.com/golangci/golangci-lint)
 	  (does what `$ go vet` does + much more)
