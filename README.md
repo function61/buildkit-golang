@@ -11,7 +11,7 @@ Features
 
 - Go build environment
 - Passes build version to your code
-	* Using [gokit/dynversion](https://pkg.go.dev/github.com/function61/gokit/app/dynversion?tab=doc)
+	* Using [gokit/app/dynversion](https://pkg.go.dev/github.com/function61/gokit/app/dynversion)
 - Runs static analysis
 	* Uses [golangci-lint](https://github.com/golangci/golangci-lint)
 	  (does what `$ go vet` does + much more)
@@ -20,8 +20,7 @@ Features
 - Contains [goimports](https://pkg.go.dev/golang.org/x/tools/cmd/goimports) which is like `gofmt`
   for your imports - it can sometimes even automatically add missing imports!
 - Contains [gopls](https://github.com/golang/tools/blob/master/gopls/README.md), a Go
-  [language server](https://langserver.org/) & works as a language server from inside container
-  without changes to one's host system!
+  [language server](https://langserver.org/). Works in a container without changes to one's host system!
 	* Working is somewhat tied to use with Turbo Bob (LSP working inside container needs a few tricks)
 - Fetches your dependencies using Go modules
 - Automatically rejects Go code that is not `$ go fmt`'d
