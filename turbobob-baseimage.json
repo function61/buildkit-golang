@@ -7,5 +7,6 @@
 		{ "command": "go generate ./bin" },
 		{ "command": "go test ./..." }
 	],
+	"langserver_cmd": ["gopls"],
 	"paths_to_cache": ["/go/pkg"]
 }
