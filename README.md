@@ -34,6 +34,20 @@ Features
 --------
 
 - Go build environment
+- Contains [goimports](https://pkg.go.dev/golang.org/x/tools/cmd/goimports) which is like `gofmt`
+  for your imports - it can sometimes even automatically add missing imports!
+- Contains [gopls](https://github.com/golang/tools/blob/master/gopls/README.md), a Go
+  [language server](https://langserver.org/). Works in a container without changes to one's host system!
+	* Working is somewhat tied to use with Turbo Bob (LSP working inside container needs a few tricks)
+- Fully static builds (so works even on Alpine linux which doesn't have standard libc)
+- Cross compilation support:
+	* Linux-amd64
+	* Linux-arm
+	* Windows-amd64
+	* macOS-amd64
+
+Standardized build process:
+
 - Passes build version to your code
 	* Using [gokit/app/dynversion](https://pkg.go.dev/github.com/function61/gokit/app/dynversion)
 - Runs static analysis
@@ -41,22 +55,11 @@ Features
 	  (does what `$ go vet` does + much more)
 - Runs your unit tests (`$ go test`)
 	* With race detector enabled
-- Contains [goimports](https://pkg.go.dev/golang.org/x/tools/cmd/goimports) which is like `gofmt`
-  for your imports - it can sometimes even automatically add missing imports!
-- Contains [gopls](https://github.com/golang/tools/blob/master/gopls/README.md), a Go
-  [language server](https://langserver.org/). Works in a container without changes to one's host system!
-	* Working is somewhat tied to use with Turbo Bob (LSP working inside container needs a few tricks)
 - Fetches your dependencies using Go modules
 - Automatically rejects Go code that is not `$ go fmt`'d
 - Runs any code generators you might have
 	* Runs `$ go generate ./...`
-- Fully static builds (so works even on Alpine linux which doesn't have standard libc)
 - Helper for packaging your binary as Lambda function
 - [Deployer](https://github.com/function61/deployer) integration
 	* For packaging `deployerspec.zip` files
 - Provides custom hooks between build steps if you have something special (though this might be a smell)
-- Cross compilation support:
-	* Linux-amd64
-	* Linux-arm
-	* Windows-amd64
-	* macOS-amd64
