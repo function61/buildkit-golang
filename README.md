@@ -6,6 +6,30 @@ Golang buildkit with shared low-level tools / build process required for Go proj
 See [Turbo Bob](https://github.com/function61/turbobob) for more details.
 
 
+How to use
+----------
+
+[build-common.sh](build-common.sh) is available inside the Docker image at `/build-common.sh`.
+
+Our typical projects using it declare
+[bin/build.sh](https://github.com/function61/function53/blob/master/bin/build.sh) having contents:
+
+```bash
+!/bin/bash -eu
+
+source /build-common.sh
+
+BINARY_NAME="function53"
+COMPILE_IN_DIRECTORY="cmd/function53"
+
+standardBuildProcess
+```
+
+Therefore building is as simple as running `bin/build.sh`. Cross compilation is done depending on
+ENV variables. E.g. to build for `Linux/ARM` you should have `BUILD_LINUX_ARM=true` set. These are
+handled automatically if you use Turbo Bob.
+
+
 Features
 --------
 
