@@ -1,4 +1,4 @@
-FROM golang:1.16rc1
+FROM golang:1.16.5
 
 # zip for packaging Lambda functions
 
@@ -10,7 +10,7 @@ RUN apt update && apt install -y zip \
 	&& chmod +x /go/bin/deployer \
 	&& curl --fail --location -o /go/bin/depth https://github.com/KyleBanks/depth/releases/download/v1.2.1/depth_1.2.1_linux_amd64 \
 	&& chmod +x /go/bin/depth \
-	&& curl --fail --location https://github.com/golangci/golangci-lint/releases/download/v1.36.0/golangci-lint-1.36.0-linux-amd64.tar.gz \
+	&& curl --fail --location https://github.com/golangci/golangci-lint/releases/download/v1.41.1/golangci-lint-1.41.1-linux-amd64.tar.gz \
 		| tar --strip-components=1 -C /usr/local/bin -xzf - --wildcards 'golangci-lint-*-linux-amd64/golangci-lint' \
 	&& true
 
