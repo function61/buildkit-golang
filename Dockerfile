@@ -2,6 +2,9 @@ FROM golang:1.16.5
 
 # zip for packaging Lambda functions
 
+# deleting /go/pkg because Turbo Bob caching wouldn't replace /go/pkg (see turbobob-baseimage.json)
+# with symlink to host if the tree already has content
+
 RUN apt update && apt install -y zip \
 	&& go get golang.org/x/tools/cmd/goimports \
 	&& go get golang.org/x/tools/gopls@latest \
@@ -12,6 +15,7 @@ RUN apt update && apt install -y zip \
 	&& chmod +x /go/bin/depth \
 	&& curl --fail --location https://github.com/golangci/golangci-lint/releases/download/v1.41.1/golangci-lint-1.41.1-linux-amd64.tar.gz \
 		| tar --strip-components=1 -C /usr/local/bin -xzf - --wildcards 'golangci-lint-*-linux-amd64/golangci-lint' \
+	&& rm -rf /go/pkg \
 	&& true
 
 ADD build-common.sh .golangci.yml /
