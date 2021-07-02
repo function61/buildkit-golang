@@ -39,6 +39,7 @@ Features
 - Contains [gopls](https://github.com/golang/tools/blob/master/gopls/README.md), a Go
   [language server](https://langserver.org/). Works in a container without changes to one's host system!
 	* Working is somewhat tied to use with Turbo Bob (LSP working inside container needs a few tricks)
+- Contains [Gohack](https://github.com/rogpeppe/gohack) to make editing dependency modules easy
 - Fully static builds (so works even on Alpine linux which doesn't have standard libc)
 - Cross compilation support:
 	* Linux-amd64
