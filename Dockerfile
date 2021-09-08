@@ -2,7 +2,8 @@ FROM golang:1.16.5
 
 # zip for packaging Lambda functions
 
-# /root/gohack (default checkout path) symlinked because it isn't visible outside the container
+# /root/gohack (default checkout path) symlinked because it isn't visible outside the container.
+# target not /workspace/vendor because that has special semantic meaning with go modules and doesn't work.
 
 # deleting /go/pkg because Turbo Bob caching wouldn't replace /go/pkg (see turbobob-baseimage.json)
 # with symlink to host if the tree already has content
@@ -13,7 +14,7 @@ RUN apt update && apt install -y zip \
 	&& go get github.com/cheekybits/genny \
 	&& go get github.com/function61/deployer/cmd/deployer@latest \
 	&& go get github.com/rogpeppe/gohack \
-	&& ln -s /workspace/vendor /root/gohack \
+	&& ln -s /workspace/gohack /root/gohack \
 	&& curl --fail --location -o /go/bin/depth https://github.com/KyleBanks/depth/releases/download/v1.2.1/depth_1.2.1_linux_amd64 \
 	&& chmod +x /go/bin/depth \
 	&& curl --fail --location https://github.com/golangci/golangci-lint/releases/download/v1.41.1/golangci-lint-1.41.1-linux-amd64.tar.gz \
