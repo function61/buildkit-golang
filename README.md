@@ -46,6 +46,9 @@ Features
 	* Linux-arm
 	* Windows-amd64
 	* macOS-amd64
+- [Protobuf](https://developers.google.com/protocol-buffers) compiler included
+- [Deployer](https://github.com/function61/deployer) integration
+	* For packaging `deployerspec.zip` files
 
 Standardized build process:
 
@@ -61,6 +64,4 @@ Standardized build process:
 - Runs any code generators you might have
 	* Runs `$ go generate ./...`
 - Helper for packaging your binary as Lambda function
-- [Deployer](https://github.com/function61/deployer) integration
-	* For packaging `deployerspec.zip` files
 - Provides custom hooks between build steps if you have something special (though this might be a smell)
