@@ -1,5 +1,7 @@
 FROM golang:1.16.7
 
+WORKDIR /workspace
+
 # zip for packaging Lambda functions
 
 # /root/gohack (default checkout path) symlinked because it isn't visible outside the container.
