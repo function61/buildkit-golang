@@ -20,6 +20,10 @@ RUN apt update && apt install -y zip \
 	&& curl --fail --location https://github.com/golangci/golangci-lint/releases/download/v1.41.1/golangci-lint-1.41.1-linux-amd64.tar.gz \
 		| tar --strip-components=1 -C /usr/local/bin -xzf - --wildcards 'golangci-lint-*-linux-amd64/golangci-lint' \
 	&& rm -rf /go/pkg \
+	&& mkdir /tmp/protoc && cd /tmp/protoc \
+	&& wget https://github.com/protocolbuffers/protobuf/releases/download/v3.17.3/protoc-3.17.3-linux-x86_64.zip \
+	&& unzip protoc-3.17.3-linux-x86_64.zip && mv bin/protoc /usr/local/bin/ && cd / && rm -rf /tmp/protoc \
+	&& go install google.golang.org/protobuf/cmd/protoc-gen-go@latest \
 	&& true
 
 ADD build-common.sh .golangci.yml /
