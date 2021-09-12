@@ -142,7 +142,10 @@ function packageLambdaFunction {
 		zip lambdafunc.zip "${BINARY_NAME}"
 		rm "${BINARY_NAME}"
 
-		cd ../deployerspec
-		deployer package "$FRIENDLY_REV_ID" ../rel/deployerspec.zip
+		# if we have deployerspec/ directory, package it into release directory
+		if [ -d ../deployerspec ]; then
+			cd ../deployerspec
+			deployer package "$FRIENDLY_REV_ID" ../rel/deployerspec.zip
+		fi
 	)
 }
