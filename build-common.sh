@@ -30,23 +30,6 @@ downloadDependencies() {
 	go get -d ./...
 }
 
-checkFormatting() {
-	# root dir by default (recurses into subdirs)
-	# unfortunately sometimes we need to override this because "." would include vendor/
-	# and vendors are sometimes unformatted
-	local gofmtTargets="${GOFMT_TARGETS:-.}"
-
-	# variable not intentionally quoted so we can give it multiple args
-	# this does same as "gofmt -l ..." (which is fixed by go fmt ./...) but additionally
-	# asserts that imports are grouped
-	local offenders=$(goimports -l $gofmtTargets)
-
-	if [ ! -z "$offenders" ]; then
-		>&2 echo "formatting errors: $offenders"
-		exit 1
-	fi
-}
-
 tests() {
 	go test -race ./...
 }
@@ -56,9 +39,8 @@ codeGeneration() {
 }
 
 staticAnalysis() {
-	if [ ! -f .golangci.yml ]; then
-		cp /.golangci.yml .
-	fi
+	# its config file is looked up from parent directories, so if we're at /workspace and we have
+	# /.golangci.yml, that's going to get used (unless there's /workspace/.golangci.yml)
 
 	# golangci-lint includes what "$ go vet ./..." would do but also more
 	golangci-lint run
@@ -131,8 +113,6 @@ standardBuildProcess() {
 
 	buildstep downloadDependencies
 
-	buildstep checkFormatting
-
 	# pretty much has to be just here because generated code often does not pass
 	# formatting test, and static analysis doesn't pass without it
 	buildstep codeGeneration
@@ -144,6 +124,11 @@ standardBuildProcess() {
 	buildstep staticAnalysis
 
 	buildstep tests
+
+	if [ ! -z ${GOFMT_TARGETS+x} ]; then
+		echo "ERROR: GOFMT_TARGETS is deprecated"
+		exit 1
+	fi
 }
 
 function packageLambdaFunction {
