@@ -16,6 +16,25 @@ linters:
     - structcheck
     - typecheck
     - unused
-    - unused
-    - varcheck
-    - scopelint
+    - varcheck # everything below this is in addition to enabled-by-default
+
+    - goimports
+    - exportloopref # successor of "scopelint"
+    - exhaustive
+    - unconvert
+    - unparam
+    - wastedassign
+    - predeclared
+    - gosec
+    - gocritic
+
+    # These looked promising but weren't worth the trouble:
+    # - gomnd # too strict
+    # - tagliatelle # naming, not struct tag validness..
+
+    # full list available by running: $ golangci-lint linter
+
+linters-settings:
+  gocritic:
+    disabled-checks:
+    - ifElseChain # false positives (some if-else chains with "short ifs" look more cumbersome rewritten)
