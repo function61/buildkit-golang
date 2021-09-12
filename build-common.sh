@@ -132,6 +132,8 @@ standardBuildProcess() {
 }
 
 function packageLambdaFunction {
+	if [ ! -z ${FASTBUILD+x} ]; then return; fi
+
 	# run in subshell because we need to change paths
 	(
 		cd rel/
