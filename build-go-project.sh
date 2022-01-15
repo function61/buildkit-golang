@@ -16,6 +16,14 @@ buildstep() {
 
 	heading "$fn"
 
+	# "staticAnalysis" -> "SKIP_STATICANALYSIS"
+	local skip_key="SKIP_${fn^^}"
+
+	if [ "${!skip_key:-}" == "y" ]; then
+		echo "Skipping because '$skip_key' set"
+		return
+	fi
+
 	"$fn"
 
 	local afterhook_fn="hook_${fn}_after"
