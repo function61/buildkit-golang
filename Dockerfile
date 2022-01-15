@@ -1,4 +1,4 @@
-FROM golang:1.17.1
+FROM golang:1.18-rc
 
 WORKDIR /workspace
 
@@ -13,13 +13,12 @@ WORKDIR /workspace
 RUN apt update && apt install -y zip \
 	&& go get golang.org/x/tools/cmd/goimports \
 	&& go get golang.org/x/tools/gopls@latest \
-	&& go get github.com/cheekybits/genny \
 	&& go get github.com/function61/deployer/cmd/deployer@latest \
 	&& go get github.com/rogpeppe/gohack \
 	&& ln -s /workspace/gohack /root/gohack \
 	&& curl --fail --location -o /go/bin/depth https://github.com/KyleBanks/depth/releases/download/v1.2.1/depth_1.2.1_linux_amd64 \
 	&& chmod +x /go/bin/depth \
-	&& curl --fail --location https://github.com/golangci/golangci-lint/releases/download/v1.42.1/golangci-lint-1.42.1-linux-amd64.tar.gz \
+	&& curl --fail --location https://github.com/golangci/golangci-lint/releases/download/v1.43.0/golangci-lint-1.43.0-linux-amd64.tar.gz \
 		| tar --strip-components=1 -C /usr/local/bin -xzf - --wildcards 'golangci-lint-*-linux-amd64/golangci-lint' \
 	&& rm -rf /go/pkg \
 	&& mkdir /tmp/protoc && cd /tmp/protoc \
