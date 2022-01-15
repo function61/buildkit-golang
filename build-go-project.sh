@@ -149,3 +149,41 @@ function packageLambdaFunction {
 		fi
 	)
 }
+
+# not being sourced?
+#
+# when we don't go into the if, we're in backwards compatiblity mode. this script used to be sourced,
+# options were set via variables and then usually called standardBuildProcess.
+# it was thought that this will modularize the build process, so unique cases could be covered.
+# but in reality 95 % of cases used standardBuildProcess with very few differences.
+#
+# so the new style is to just invoke this script with args.
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+	# we don't use short options but "-o" needs to be set, otherwise it mysteriously just doesn't work...
+	options=$(getopt -l "directory:,binary-basename:" -o "" -a -- "$@")
+
+	eval set -- "$options"
+
+	while true
+	do
+	case $1 in
+	--directory)
+		shift
+		export COMPILE_IN_DIRECTORY="$1"
+		;;
+	--binary-basename)
+		shift
+		export BINARY_NAME="$1"
+		;;
+	--)
+		shift
+		break;;
+	*)
+		echo "Unsupported arg: $1"
+		exit 1
+	esac
+	shift
+	done
+
+	standardBuildProcess
+fi

@@ -25,6 +25,8 @@ RUN apt update && apt install -y zip \
 	&& wget https://github.com/protocolbuffers/protobuf/releases/download/v3.17.3/protoc-3.17.3-linux-x86_64.zip \
 	&& unzip protoc-3.17.3-linux-x86_64.zip && mv bin/protoc /usr/local/bin/ && cd / && rm -rf /tmp/protoc \
 	&& go install google.golang.org/protobuf/cmd/protoc-gen-go@latest \
+	&& ln -s /usr/bin/build-go-project.sh /build-common.sh \
 	&& true
 
-ADD build-common.sh .golangci.yml turbobob-baseimage.json /
+COPY build-go-project.sh /usr/bin/build-go-project.sh
+COPY turbobob-baseimage.json .golangci.yml /
