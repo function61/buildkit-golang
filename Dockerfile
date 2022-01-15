@@ -28,6 +28,4 @@ RUN apt update && apt install -y zip \
 	&& go install google.golang.org/protobuf/cmd/protoc-gen-go@latest \
 	&& true
 
-ADD build-common.sh .golangci.yml /
-
-ADD turbobob-baseimage.json /
+ADD build-common.sh .golangci.yml turbobob-baseimage.json /
