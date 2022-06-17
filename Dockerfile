@@ -14,6 +14,7 @@ WORKDIR /workspace
 
 RUN apt update && apt install -y zip \
 	&& go install golang.org/x/tools/cmd/goimports@latest \
+	&& go install golang.org/x/tools/cmd/godoc@latest \
 	&& go install golang.org/x/tools/gopls@latest \
 	&& go install github.com/function61/deployer/cmd/deployer@latest \
 	&& go install github.com/rogpeppe/gohack@latest \
