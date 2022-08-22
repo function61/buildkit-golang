@@ -15,7 +15,7 @@ Our typical projects using it declare
 [bin/build.sh](https://github.com/function61/function53/blob/master/bin/build.sh) having contents:
 
 ```bash
-!/bin/bash -eu
+#!/bin/bash -eu
 
 source /build-common.sh
 
