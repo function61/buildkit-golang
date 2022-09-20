@@ -51,7 +51,9 @@ staticAnalysis() {
 	# /.golangci.yml, that's going to get used (unless there's /workspace/.golangci.yml)
 
 	# golangci-lint includes what "$ go vet ./..." would do but also more
-	golangci-lint run
+	# timeout added because default (1m) sometimes timeouts on bigger projects in underpowered GitHub actions.
+	# more details: https://github.com/golangci/golangci-lint-action/issues/297
+	golangci-lint run --timeout=3m
 }
 
 # "maybe" = if env var like BUILD_LINUX_AMD64 != true, skip build
