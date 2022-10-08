@@ -5,22 +5,43 @@ fn_exists() {
 	[ `type -t $1`"" == 'function' ]
 }
 
-heading() {
+# NOTE: remember to call "end" too
+heading1Begin() {
 	local text="$1"
 
-	echo "# $text"
+	if [ "${GITHUB_ACTIONS:-}" == "true" ]; then
+		# https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#grouping-log-lines
+		echo "::group::$text"
+	else
+		echo "# $text"
+	fi
+}
+
+heading1End() {
+	if [ "${GITHUB_ACTIONS:-}" == "true" ]; then
+		echo "::endgroup::"
+	else
+		return 0
+	fi
+}
+
+heading2() {
+	local text="$1"
+
+	echo "## $text"
 }
 
 buildstep() {
 	local fn="$1"
 
-	heading "$fn"
+	heading1Begin "$fn"
 
 	# "staticAnalysis" -> "SKIP_STATICANALYSIS"
 	local skip_key="SKIP_${fn^^}"
 
 	if [ "${!skip_key:-}" == "y" ]; then
 		echo "Skipping because '$skip_key' set"
+		heading1End
 		return
 	fi
 
@@ -32,6 +53,8 @@ buildstep() {
 	if fn_exists "$afterhook_fn"; then
 		buildstep "$afterhook_fn"
 	fi
+
+	heading1End
 }
 
 downloadDependencies() {
@@ -65,7 +88,7 @@ gobuildmaybe() {
 
 	local buildEnvVarContent="${!buildEnvVarName:-}"
 
-	heading "build $os-$architecture"
+	heading2 "build $os-$architecture"
 
 	if [ ! "$buildEnvVarContent" = "true" ]; then
 		echo "Skipping because $buildEnvVarName != true"
