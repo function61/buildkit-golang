@@ -218,5 +218,8 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 	shift
 	done
 
+	# has to be set, so provide a default value if unset
+	FRIENDLY_REV_ID=${FRIENDLY_REV_ID:-dev}
+
 	standardBuildProcess
 fi
