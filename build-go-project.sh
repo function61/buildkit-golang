@@ -79,6 +79,8 @@ staticAnalysis() {
 	golangci-lint run --timeout=3m
 }
 
+builds_count=0
+
 # "maybe" = if env var like BUILD_LINUX_AMD64 != true, skip build
 gobuildmaybe() {
 	local buildEnvVarName="$1"
@@ -94,6 +96,8 @@ gobuildmaybe() {
 		echo "Skipping because $buildEnvVarName != true"
 		return
 	fi
+
+	builds_count=$((builds_count+1))
 
 	local projectroot="$(pwd)"
 	local dir_in_which_to_compile="${COMPILE_IN_DIRECTORY:-.}"
@@ -124,6 +128,14 @@ binaries() {
 	gobuildmaybe "BUILD_LINUX_ARM" "linux" "arm" "_linux-arm"
 	gobuildmaybe "BUILD_WINDOWS_AMD64" "windows" "amd64" ".exe"
 	gobuildmaybe "BUILD_DARWIN_AMD64" "darwin" "amd64" "_darwin-amd64"
+
+	# none requested => caller probably doesn't use Turbo Bob which would set up
+	# these ENV variables. just ask for a build according to current OS/arch
+	if [ $builds_count -eq 0 ]; then
+		BUILD_DEFAULT="true" # a hack, really
+		# when os/arch not given, Go autodetects the current OS/arch
+		gobuildmaybe "BUILD_DEFAULT" "" "" ""
+	fi
 }
 
 removePreviousBuildArtefacts() {
