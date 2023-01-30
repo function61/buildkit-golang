@@ -70,13 +70,20 @@ codeGeneration() {
 }
 
 staticAnalysis() {
+	# if we're in GitHub actions, use such an output format that GitHub knows to display the
+	# errors inline with the code
+	local output_format_arg=""
+	if [ "${GITHUB_ACTIONS:-}" == "true" ]; then
+		output_format_arg="--out-format=github-actions"
+	fi
+
 	# its config file is looked up from parent directories, so if we're at /workspace and we have
 	# /.golangci.yml, that's going to get used (unless there's /workspace/.golangci.yml)
 
 	# golangci-lint includes what "$ go vet ./..." would do but also more
 	# timeout added because default (1m) sometimes timeouts on bigger projects in underpowered GitHub actions.
 	# more details: https://github.com/golangci/golangci-lint-action/issues/297
-	golangci-lint run --timeout=3m
+	golangci-lint run --timeout=3m $output_format_arg
 }
 
 builds_count=0
