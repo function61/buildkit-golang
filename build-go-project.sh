@@ -127,6 +127,7 @@ gobuildmaybe() {
 	# compile statically so this works on Alpine Linux that doesn't have glibc
 	(cd "$dir_in_which_to_compile" && GOARM=6 && GOOS="$os" GOARCH="$architecture" CGO_ENABLED=0 go build \
 		-ldflags "-extldflags \"-static\" -X github.com/function61/gokit/app/dynversion.Version=$FRIENDLY_REV_ID" \
+		-buildvcs=false \
 		-o "$projectroot/rel/${BINARY_NAME}${binSuffix}")
 }
 
