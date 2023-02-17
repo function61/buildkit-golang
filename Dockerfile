@@ -1,4 +1,4 @@
-FROM golang:1.19
+FROM golang:1.20.1
 
 WORKDIR /workspace
 
@@ -11,6 +11,9 @@ WORKDIR /workspace
 # with symlink to host if the tree already has content
 
 # go install something@latest is because if you don't specify version, it requires you have a Go module set up
+
+# git config safe.directory /workspace because Go build uses Git metadata (for embedding commit metadata)
+# and if we bind mount workspace from outside of container Git complains if container uid doesn't match that of files.
 
 RUN apt update && apt install -y zip \
 	&& go install golang.org/x/tools/cmd/goimports@latest \
@@ -29,6 +32,7 @@ RUN apt update && apt install -y zip \
 	&& rm -rf /go/pkg \
 	&& mkdir /tmp/protoc && cd /tmp/protoc \
 	&& ln -s /usr/bin/build-go-project.sh /build-common.sh \
+	&& git config --global --add safe.directory /workspace \
 	&& true
 
 COPY build-go-project.sh /usr/bin/build-go-project.sh
