@@ -24,7 +24,7 @@ RUN apt update && apt install -y zip \
 	&& ln -s /workspace/gohack /root/gohack \
 	&& curl --fail --location -o /go/bin/depth https://github.com/KyleBanks/depth/releases/download/v1.2.1/depth_1.2.1_linux_amd64 \
 	&& chmod +x /go/bin/depth \
-	&& curl --fail --location https://github.com/golangci/golangci-lint/releases/download/v1.48.0/golangci-lint-1.48.0-linux-amd64.tar.gz \
+	&& curl --fail --location https://function61.com/app-dl/api/github.com/golangci/golangci-lint/latest_releases_asset/golangci-lint-%2A-linux-amd64.tar.gz \
 		| tar --strip-components=1 -C /usr/local/bin -xzf - --wildcards 'golangci-lint-*-linux-amd64/golangci-lint' \
 	&& rm -rf /go/pkg \
 	&& mkdir /tmp/protoc && cd /tmp/protoc \
