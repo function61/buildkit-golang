@@ -212,8 +212,10 @@ function packageLambdaFunction {
 #
 # so the new style is to just invoke this script with args.
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+	awsLambdaZip=false
+
 	# we don't use short options but "-o" needs to be set, otherwise it mysteriously just doesn't work...
-	options=$(getopt -l "directory:,binary-basename:" -o "" -a -- "$@")
+	options=$(getopt -l "directory:,binary-basename:,aws-lambda-zip" -o "" -a -- "$@")
 
 	eval set -- "$options"
 
@@ -227,6 +229,9 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 	--binary-basename)
 		shift
 		export BINARY_NAME="$1"
+		;;
+	--aws-lambda-zip)
+		awsLambdaZip=true
 		;;
 	--)
 		shift
@@ -242,4 +247,8 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 	FRIENDLY_REV_ID=${FRIENDLY_REV_ID:-dev}
 
 	standardBuildProcess
+
+	if [ $awsLambdaZip = true ] ; then
+		buildstep packageLambdaFunction
+	fi
 fi
