@@ -9,25 +9,13 @@ See [Turbo Bob](https://github.com/function61/turbobob) for more details.
 How to use
 ----------
 
-[build-common.sh](build-common.sh) is available inside the Docker image at `/build-common.sh`.
+[build-go-project.sh](build-go-project.sh) is available inside the container image.
 
-Our typical projects using it declare
-[bin/build.sh](https://github.com/function61/function53/blob/master/bin/build.sh) having contents:
+Our typical projects declare the `build-go-project.sh` call in the build command definition in
+[turbobob.json](https://github.com/function61/turbobob/blob/51e6c7f5c5b0e7b0c244d670410e6c1a383429a6/turbobob.json#L11).
 
-```bash
-#!/bin/bash -eu
-
-source /build-common.sh
-
-BINARY_NAME="function53"
-COMPILE_IN_DIRECTORY="cmd/function53"
-
-standardBuildProcess
-```
-
-Therefore building is as simple as running `bin/build.sh`. Cross compilation is done depending on
-ENV variables. E.g. to build for `Linux/ARM` you should have `BUILD_LINUX_ARM=true` set. These are
-handled automatically if you use Turbo Bob.
+Cross compilation is done depending on ENV variables. E.g. to build for `Linux/ARM` you should have
+`BUILD_LINUX_ARM=true` set. These are handled automatically if you use Turbo Bob.
 
 
 Features
