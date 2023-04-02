@@ -156,16 +156,6 @@ removePreviousBuildArtefacts() {
 }
 
 standardBuildProcess() {
-	# skips steps that aren't usually strictly necessary when doing minor modifications.
-	# however, if you encounter a bug, remember to run full build for static analysis etc., tests etc.
-	if [ -n "${FASTBUILD:-}" ]; then
-		buildstep removePreviousBuildArtefacts
-
-		buildstep binaries
-
-		return
-	fi
-
 	buildstep removePreviousBuildArtefacts
 
 	buildstep downloadDependencies
@@ -191,8 +181,6 @@ standardBuildProcess() {
 }
 
 function packageLambdaFunction {
-	if [ ! -z ${FASTBUILD+x} ]; then return; fi
-
 	# run in subshell because we need to change paths
 	(
 		cd rel/
@@ -251,6 +239,15 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
 	# has to be set, so provide a default value if unset
 	FRIENDLY_REV_ID=${FRIENDLY_REV_ID:-dev}
+
+	# skips steps that aren't usually strictly necessary when doing minor modifications.
+	# however, if you encounter a bug, remember to run full build for static analysis etc., tests etc.
+	if [ -n "${FASTBUILD:-}" ]; then
+		SKIP_DOWNLOADDEPENDENCIES=y
+		SKIP_CODEGENERATION=y
+		SKIP_STATICANALYSIS=y
+		SKIP_TESTS=y
+	fi
 
 	standardBuildProcess
 fi
