@@ -182,6 +182,8 @@ standardBuildProcess() {
 
 	buildstep tests
 
+	buildstep packageLambdaFunction
+
 	if [ ! -z ${GOFMT_TARGETS+x} ]; then
 		echo "ERROR: GOFMT_TARGETS is deprecated"
 		exit 1
@@ -216,7 +218,7 @@ function packageLambdaFunction {
 #
 # so the new style is to just invoke this script with args.
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
-	awsLambdaZip=false
+	SKIP_PACKAGELAMBDAFUNCTION=y
 
 	# we don't use short options but "-o" needs to be set, otherwise it mysteriously just doesn't work...
 	options=$(getopt -l "directory:,binary-basename:,aws-lambda-zip" -o "" -a -- "$@")
@@ -235,7 +237,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 		export BINARY_NAME="$1"
 		;;
 	--aws-lambda-zip)
-		awsLambdaZip=true
+		unset SKIP_PACKAGELAMBDAFUNCTION
 		;;
 	--)
 		shift
@@ -251,8 +253,4 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 	FRIENDLY_REV_ID=${FRIENDLY_REV_ID:-dev}
 
 	standardBuildProcess
-
-	if [ $awsLambdaZip = true ] ; then
-		buildstep packageLambdaFunction
-	fi
 fi
