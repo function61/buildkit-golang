@@ -34,16 +34,18 @@ heading2() {
 buildstep() {
 	local fn="$1"
 
-	heading1Begin "$fn"
-
 	# "staticAnalysis" -> "SKIP_STATICANALYSIS"
 	local skip_key="SKIP_${fn^^}"
 
 	if [ "${!skip_key:-}" == "y" ]; then
-		echo "Skipping because '$skip_key' set"
-		heading1End
+		if [ -n "${DEBUG:-}" ]; then
+			heading1Begin "$fn (skipped because '$skip_key' set)"
+			heading1End
+		fi
 		return
 	fi
+
+	heading1Begin "$fn"
 
 	"$fn"
 
@@ -97,11 +99,12 @@ gobuildmaybe() {
 
 	local buildEnvVarContent="${!buildEnvVarName:-}"
 
-	heading2 "build $os-$architecture"
 
 	if [ ! "$buildEnvVarContent" = "true" ]; then
-		echo "Skipping because $buildEnvVarName != true"
+		heading2 "build $os-$architecture (skipping because $buildEnvVarName != true)"
 		return
+	else
+		heading2 "build $os-$architecture"
 	fi
 
 	builds_count=$((builds_count+1))
