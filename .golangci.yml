@@ -7,16 +7,13 @@ run:
 linters:
   disable-all: true
   enable:
-    - deadcode
     - errcheck
     - gosimple
     - govet
     - ineffassign
     - staticcheck
-    - structcheck
     - typecheck
-    - unused
-    - varcheck # everything below this is in addition to enabled-by-default
+    - unused # everything below this is in addition to enabled-by-default
 
     - goimports
     - exportloopref # successor of "scopelint"
@@ -27,12 +24,13 @@ linters:
     - predeclared
     - gosec
     - gocritic
+    - nonamedreturns
 
     # These looked promising but weren't worth the trouble:
     # - gomnd # too strict
     # - tagliatelle # naming, not struct tag validness..
 
-    # full list available by running: $ golangci-lint linter
+    # full list available by running: $ golangci-lint linters
 
 linters-settings:
   gocritic:
