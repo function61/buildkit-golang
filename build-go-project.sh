@@ -128,7 +128,7 @@ gobuildmaybe() {
 	# - using v6 to be compatible with Raspberry Pi Zero W (& by extension, the original Pi)
 
 	# compile statically so this works on Alpine Linux that doesn't have glibc
-	(cd "$dir_in_which_to_compile" && GOARM=6 && GOOS="$os" GOARCH="$architecture" CGO_ENABLED=0 go build \
+	(cd "$dir_in_which_to_compile" && GOARM=6 GOOS="$os" GOARCH="$architecture" CGO_ENABLED=0 go build \
 		-ldflags "-extldflags \"-static\" -X github.com/function61/gokit/app/dynversion.Version=$FRIENDLY_REV_ID" \
 		-o "$projectroot/rel/${BINARY_NAME}${binSuffix}")
 }
