@@ -31,6 +31,7 @@ RUN apt update && apt install -y zip \
 		| tar --strip-components=1 -C /usr/local/bin -xzf - --wildcards 'golangci-lint-*-linux-amd64/golangci-lint' \
 	&& rm -rf /go/pkg \
 	&& mkdir /tmp/protoc && cd /tmp/protoc \
+ 	&& curl --fail --location https://github.com/abhinav/doc2go/releases/download/v0.8.1/doc2go-linux-amd64.tar.gz | tar -C /usr/local/bin/ -xzf - doc2go \
 	&& ln -s /usr/bin/build-go-project.sh /build-common.sh \
 	&& git config --global --add safe.directory /workspace \
 	&& true
