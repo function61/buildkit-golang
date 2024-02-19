@@ -174,6 +174,8 @@ standardBuildProcess() {
 
 	buildstep packageLambdaFunction
 
+	buildstep generateCodeDocs
+
 	if [ ! -z ${GOFMT_TARGETS+x} ]; then
 		echo "ERROR: GOFMT_TARGETS is deprecated"
 		exit 1
@@ -197,6 +199,16 @@ function packageLambdaFunction {
 	)
 }
 
+# uses doc2go to (auto)generate documentation for Go code.
+# https://abhinav.github.io/doc2go/
+# use case: private projects for which https://pkg.go.dev/ docs aren't accessible.
+function generateCodeDocs {
+	local docsTempDir="/tmp/docsite"
+	rm -rf "$docsTempDir"
+	doc2go -out "$docsTempDir" ./...
+	tar -C "$docsTempDir" . -czf rel/code-documentation.tar.gz
+}
+
 # not being sourced?
 #
 # when we don't go into the if, we're in backwards compatiblity mode. this script used to be sourced,
@@ -207,9 +219,10 @@ function packageLambdaFunction {
 # so the new style is to just invoke this script with args.
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 	SKIP_PACKAGELAMBDAFUNCTION=y
+	SKIP_GENERATECODEDOCS=y
 
 	# we don't use short options but "-o" needs to be set, otherwise it mysteriously just doesn't work...
-	options=$(getopt -l "directory:,binary-basename:,aws-lambda-zip" -o "" -a -- "$@")
+	options=$(getopt -l "directory:,binary-basename:,aws-lambda-zip,generate-code-documentation" -o "" -a -- "$@")
 
 	eval set -- "$options"
 
@@ -226,6 +239,9 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 		;;
 	--aws-lambda-zip)
 		unset SKIP_PACKAGELAMBDAFUNCTION
+		;;
+	--generate-code-documentation)
+		unset SKIP_GENERATECODEDOCS
 		;;
 	--)
 		shift
@@ -247,6 +263,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 		SKIP_CODEGENERATION=y
 		SKIP_STATICANALYSIS=y
 		SKIP_TESTS=y
+		SKIP_GENERATECODEDOCS=y
 	fi
 
 	standardBuildProcess
