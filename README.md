@@ -37,6 +37,7 @@ Features
 - [Protobuf](https://developers.google.com/protocol-buffers) compiler included
 - [Deployer](https://github.com/function61/deployer) integration
 	* For packaging `deployerspec.zip` files
+- [doc2go](https://github.com/abhinav/doc2go/) for generating documentation (use case: private documentation). See [why godoc isn't enough](https://github.com/golang/go/issues/2381).
 
 Standardized build process:
 
