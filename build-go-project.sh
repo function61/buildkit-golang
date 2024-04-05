@@ -119,6 +119,17 @@ gobuildmaybe() {
 
 	local workdir="$(pwd)"
 
+	local ldFlagsAdditional=""
+	if [ "${BUILDOPT_DEBUG:-}" = "" ]; then # not doing debug build?
+		# https://www.codingexplorations.com/blog/reducing-binary-size-in-go-strip-unnecessary-data-with-ldflags-w-s
+		# where:
+		#   -w: This flag omits the DWARF symbol table, effectively removing debugging information.
+		#   -s: This strips the symbol table and debug information from the binary.
+		#
+		# ldflags go to `$ go tool link`. you can see these flags by running that command to see help.
+		ldFlagsAdditional="-w -s"
+	fi
+
 	# NOTE: setting the "dynversion.Version" doesn't work when code under vendor/, but seems
 	#       to work now fine with Go modules. https://github.com/golang/go/issues/19000
 
@@ -129,7 +140,7 @@ gobuildmaybe() {
 
 	# compile statically so this works on Alpine Linux that doesn't have glibc
 	(cd "$dir_in_which_to_compile" && GOARM=6 GOOS="$os" GOARCH="$architecture" CGO_ENABLED=0 go build \
-		-ldflags "-extldflags \"-static\" -X github.com/function61/gokit/app/dynversion.Version=$FRIENDLY_REV_ID" \
+		-ldflags "$ldFlagsAdditional -extldflags \"-static\" -X github.com/function61/gokit/app/dynversion.Version=$FRIENDLY_REV_ID" \
 		-o "$projectroot/rel/${BINARY_NAME}${binSuffix}")
 }
 
