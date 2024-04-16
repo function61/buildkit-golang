@@ -1,6 +1,6 @@
 
-run:
-  skip-files:
+issues:
+  exclude-files:
     # golangci-lint doesn't recognize our generated files (*.gen.go)
     - ".+\\.gen\\.go$"
 
