@@ -16,7 +16,7 @@ linters:
     - unused # everything below this is in addition to enabled-by-default
 
     - goimports
-    - exportloopref # successor of "scopelint"
+    - copyloopvar
     - exhaustive
     - unconvert
     - unparam
