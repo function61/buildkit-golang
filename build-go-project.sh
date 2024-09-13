@@ -197,10 +197,13 @@ function packageLambdaFunction {
 	# run in subshell because we need to change paths
 	(
 		cd rel/
-		cp "${BINARY_NAME}_linux-amd64" "${BINARY_NAME}"
+		# the executable name needs to be "bootstrap". unfortunately one can't easily add file to zip
+		# with another name, so let's just create a hardlink to not need a temporary copy.
+		# https://aws.amazon.com/blogs/compute/migrating-aws-lambda-functions-from-the-go1-x-runtime-to-the-custom-runtime-on-amazon-linux-2/
+		ln "${BINARY_NAME}_linux-amd64" bootstrap
 		rm -f lambdafunc.zip
-		zip lambdafunc.zip "${BINARY_NAME}"
-		rm "${BINARY_NAME}"
+		zip lambdafunc.zip bootstrap
+		rm bootstrap
 
 		# if we have deployerspec/ directory, package it into release directory
 		if [ -d ../deployerspec ]; then
