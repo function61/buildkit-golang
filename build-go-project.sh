@@ -59,8 +59,10 @@ buildstep() {
 	heading1End
 }
 
+# go would download missing dependencies on build anyway, but it's nice to run this step explicitly
+# if not for nothing else than to get the "downloading" items under its own log line group
 downloadDependencies() {
-	go get -d ./...
+	go get ./...
 }
 
 tests() {
