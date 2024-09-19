@@ -36,3 +36,6 @@ linters-settings:
   gocritic:
     disabled-checks:
     - ifElseChain # false positives (some if-else chains with "short ifs" look more cumbersome rewritten)
+  gosec:
+    excludes:
+      - G115  # https://dev.to/ccoveille/about-the-gosec-g115-drama-or-how-i-faced-back-integer-conversion-overflow-in-go-1302
