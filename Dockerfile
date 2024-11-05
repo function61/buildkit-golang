@@ -19,6 +19,7 @@ RUN apt update && apt install -y zip \
 	&& go install golang.org/x/tools/cmd/goimports@latest \
 	&& go install golang.org/x/tools/cmd/godoc@latest \
 	&& go install golang.org/x/tools/gopls@latest \
+	&& go install golang.org/x/vuln/cmd/govulncheck@latest \
 	&& go install github.com/function61/deployer/cmd/deployer@latest \
 	&& go install github.com/rogpeppe/gohack@latest \
 	&& go install google.golang.org/protobuf/cmd/protoc-gen-go@latest \

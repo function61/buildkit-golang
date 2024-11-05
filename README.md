@@ -28,6 +28,7 @@ Features
   [language server](https://langserver.org/). Works in a container without changes to one's host system!
 	* Working is somewhat tied to use with Turbo Bob (LSP working inside container needs a few tricks)
 - Contains [Gohack](https://github.com/rogpeppe/gohack) to make editing dependency modules easy
+- [Govulncheck](https://pkg.go.dev/golang.org/x/vuln/cmd/govulncheck) reports known vulnerabilities that affect Go code.
 - Fully static builds (so works even on Alpine linux which doesn't have standard libc)
 - Cross compilation support:
 	* Linux-amd64
