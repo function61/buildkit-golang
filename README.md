@@ -5,6 +5,8 @@ Golang buildkit with shared low-level tools / build process required for Go proj
 
 See [Turbo Bob](https://github.com/function61/turbobob) for more details.
 
+![](docs/logo.webp)
+
 
 How to use
 ----------
