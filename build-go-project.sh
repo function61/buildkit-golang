@@ -166,6 +166,14 @@ binaries() {
 removePreviousBuildArtefacts() {
 	rm -rf rel
 	mkdir rel
+
+	# suppose we compile two executables into this directory. for consistency we don't want for
+	# the first executable's compilation the workdir to be clean (Git doesn't track directories
+	# so this dir itself is not counted) and for the second not.
+	#
+	# if you want the workdir to be considered clean despite the rel/ directory here then .gitignore
+	# could be the more robust solution. more context: https://github.com/function61/turbobob/issues/65
+	touch rel/.dummy_file_to_make_dir_not_empty
 }
 
 standardBuildProcess() {
