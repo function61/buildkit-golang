@@ -1,21 +1,12 @@
-
-issues:
-  exclude-files:
-    # golangci-lint doesn't recognize our generated files (*.gen.go)
-    - ".+\\.gen\\.go$"
-
+version: "2"
 linters:
-  disable-all: true
+  default: none
   enable:
     - errcheck
-    - gosimple
     - govet
     - ineffassign
     - staticcheck
-    - typecheck
-    - unused # everything below this is in addition to enabled-by-default
-
-    - goimports
+    - unused
     - copyloopvar
     - exhaustive
     - unconvert
@@ -30,12 +21,37 @@ linters:
     # - gomnd # too strict
     # - tagliatelle # naming, not struct tag validness..
 
-    # full list available by running: $ golangci-lint linters
-
-linters-settings:
-  gocritic:
-    disabled-checks:
-    - ifElseChain # false positives (some if-else chains with "short ifs" look more cumbersome rewritten)
-  gosec:
-    excludes:
-      - G115  # https://dev.to/ccoveille/about-the-gosec-g115-drama-or-how-i-faced-back-integer-conversion-overflow-in-go-1302
+    # full list available by running: $ golangci-lint linters  settings:
+  settings:
+    gocritic:
+      disabled-checks:
+        - ifElseChain
+    gosec:
+      excludes:
+        - G115
+    staticcheck:
+      checks:
+        - all
+        - '-ST1001' # "Dot imports are discouraged."
+  exclusions:
+    generated: lax
+    presets:
+      - comments
+      - common-false-positives
+      - legacy
+      - std-error-handling
+    paths:
+      - .+\.gen\.go$
+      - third_party$
+      - builtin$
+      - examples$
+formatters:
+  enable:
+    - goimports
+  exclusions:
+    generated: lax
+    paths:
+      - .+\.gen\.go$
+      - third_party$
+      - builtin$
+      - examples$
