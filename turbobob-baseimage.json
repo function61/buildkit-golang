@@ -11,5 +11,5 @@
 		"languages": ["go"],
 		"command": ["gopls"]
 	},
-	"paths_to_cache": ["/go/pkg"]
+	"paths_to_cache": ["/go/pkg", "/root/.cache"]
 }
