@@ -1,4 +1,9 @@
-FROM golang:1.24.5
+# https://go.dev/doc/devel/release
+#
+# NOTE: chores on Go version bump:
+# - bump Delve as well (looks like the `MAJOR.MINOR` must match, patch-version is for Delve itself)
+#
+FROM golang:1.25.4
 
 WORKDIR /workspace
 
@@ -16,7 +21,7 @@ WORKDIR /workspace
 # and if we bind mount workspace from outside of container Git complains if container uid doesn't match that of files.
 
 RUN apt update && apt install -y zip \
-	&& go install github.com/go-delve/delve/cmd/dlv@v1.24.2 \
+	&& go install github.com/go-delve/delve/cmd/dlv@v1.25.2 \
 	&& go install golang.org/x/tools/cmd/goimports@latest \
 	&& go install golang.org/x/tools/cmd/godoc@latest \
 	&& go install golang.org/x/tools/gopls@latest \
