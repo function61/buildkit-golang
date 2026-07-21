@@ -38,6 +38,7 @@ RUN apt update && apt install -y zip \
 	&& mkdir /tmp/protoc && cd /tmp/protoc \
 	&& ln -s /usr/bin/build-go-project.sh /build-common.sh \
 	&& git config --global --add safe.directory /workspace \
+	&& go telemetry off \
 	&& true
 
 COPY build-go-project.sh /usr/bin/build-go-project.sh
