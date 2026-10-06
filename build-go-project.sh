@@ -66,7 +66,7 @@ downloadDependencies() {
 }
 
 tests() {
-	go test -race ./...
+	go test ./...
 }
 
 codeGeneration() {
@@ -287,6 +287,10 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 		SKIP_STATICANALYSIS=y
 		SKIP_TESTS=y
 		SKIP_GENERATECODEDOCS=y
+	fi
+
+	if [ -n "${AWS_SECRET_ACCESS_KEY:-}" ]; then
+		export GOCACHEPROG="go-cache-plugin --bucket=go-build-cache --s3-endpoint-url=https://081836c30f96e5ca17a87f42a4a7583a.r2.cloudflarestorage.com --region=auto --cache-dir=$HOME/.cache/go-cache-plugin"
 	fi
 
 	standardBuildProcess

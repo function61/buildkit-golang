@@ -29,6 +29,7 @@ RUN apt update && apt install -y zip \
 	&& go install github.com/function61/deployer/cmd/deployer@latest \
 	&& go install github.com/rogpeppe/gohack@latest \
 	&& go install google.golang.org/protobuf/cmd/protoc-gen-go@latest \
+	&& go install github.com/tailscale/go-cache-plugin/cmd/go-cache-plugin@latest \
 	&& wget https://github.com/protocolbuffers/protobuf/releases/download/v3.17.3/protoc-3.17.3-linux-x86_64.zip \
 	&& unzip protoc-3.17.3-linux-x86_64.zip && mv bin/protoc /usr/local/bin/ && cd / && rm -rf /tmp/protoc \
 	&& ln -s /workspace/gohack /root/gohack \
