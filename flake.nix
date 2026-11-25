@@ -18,7 +18,7 @@
           gnutar
           gzip
           curl
-          git
+          gitMinimal # Go module and build metadata access without Git's Perl/Python integrations.
           openssh # Git access to repositories over SSH, including private Go modules.
           cacert
           zip
