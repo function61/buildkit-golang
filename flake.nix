@@ -34,6 +34,12 @@
         ];
         pathsToLink = [ "/bin" "/etc" "/share" ];
       };
+      buildScript = pkgs.runCommand "build-go-project-script" { } ''
+        mkdir -p $out/bin
+        install -m 755 ${./build-go-project.sh} $out/bin/build-go-project.sh
+        substituteInPlace $out/bin/build-go-project.sh \
+          --replace-fail '#!/bin/bash -eu' '#!${pkgs.bash}/bin/bash -eu'
+      '';
       root = pkgs.runCommand "buildkit-golang-root" { } ''
         mkdir -p $out/bin $out/usr/bin $out/root $out/workspace $out/tmp
         chmod 1777 $out/tmp
@@ -47,6 +53,12 @@
         printf '[safe]\n\tdirectory = /workspace\n' > $out/root/.gitconfig
       '';
     in {
+      devShells.${system}.default = pkgs.mkShellNoCC {
+        packages = [ tools buildScript ];
+        CGO_ENABLED = "0";
+        GOTOOLCHAIN = "local";
+      };
+
       packages.${system}.default = pkgs.dockerTools.buildLayeredImage {
         name = "buildkit-golang-nix-poc";
         tag = "latest";
