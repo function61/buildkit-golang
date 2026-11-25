@@ -27,3 +27,12 @@ The image omits `godoc`, `gohack` and Function61's `deployer`, which are not dir
 available in the pinned Nixpkgs. In particular, packaging a `deployerspec`
 requires `deployer` and will not work. Tool versions and the underlying
 environment differ from the original image; full compatibility is not guaranteed.
+The image also excludes `doc2go`, `protoc` and `protoc-gen-go`; documentation
+generation and protobuf code generation require those tools to be supplied separately.
+
+Image size
+----------
+
+One `docker images` comparison reported the Nix POC at **1.12 GB**, versus
+**1.68 GB** for `fn61/buildkit-golang:20260604_1344_ff654e98`: about 33% smaller.
+These are local image sizes for those specific builds, not compressed download sizes.

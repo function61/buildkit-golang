@@ -10,10 +10,27 @@
       tools = pkgs.buildEnv {
         name = "buildkit-golang-tools";
         paths = with pkgs; [
-          bashInteractive coreutils findutils gnugrep gnused gnutar gzip
-          curl git openssh cacert zip unzip getopt
-          go delve gotools gopls govulncheck golangci-lint
-          protobuf protoc-gen-go doc2go
+          bashInteractive
+          coreutils
+          findutils
+          gnugrep
+          gnused
+          gnutar
+          gzip
+          curl
+          git
+          openssh # Git access to repositories over SSH, including private Go modules.
+          cacert
+          zip
+          unzip
+          getopt # Parses build-go-project.sh command-line options.
+          procps # Provides process inspection tools, including ps.
+          go
+          delve
+          gotools # goimports and other Go development tools, including stringer and deadcode.
+          gopls
+          govulncheck
+          golangci-lint
         ];
         pathsToLink = [ "/bin" "/etc" "/share" ];
       };
