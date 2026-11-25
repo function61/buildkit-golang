@@ -3,17 +3,40 @@ name: Build
 on: [push]
 
 jobs:
-  build:
+  nix-poc:
     runs-on: ubuntu-latest
+    concurrency:
+      group: nix-poc-${{ github.ref }}
+      cancel-in-progress: true
     steps:
     - uses: actions/checkout@v4
 
-    - uses: docker/setup-buildx-action@v3
+    - uses: cachix/install-nix-action@v31
 
-    - name: Build
-      run: |
-        set -eu
-        curl --fail --location --no-progress-meter --output bob https://function61.com/go/turbobob-latest-stable-linux-amd64 && chmod +x bob
-        ./bob build in-ci-autodetect-settings
+    - name: Build Nix image
+      run: nix build .#
+
+    - name: Load Nix image
+      run: docker load --input result
+
+    - name: Publish Nix image
+      if: github.ref == 'refs/heads/feature/build-from-nix'
       env:
         DOCKER_CREDS: ${{ secrets.DOCKER_CREDS }}
+      run: |
+        set -eu
+        case "$DOCKER_CREDS" in
+          *:*)
+            username=${DOCKER_CREDS%%:*}
+            password=${DOCKER_CREDS#*:}
+            test -n "$username" && test -n "$password"
+            ;;
+          *)
+            printf '%s\n' 'Invalid DOCKER_CREDS' >&2
+            exit 1
+            ;;
+        esac
+        printf '::add-mask::%s\n' "$password"
+        printf '%s' "$password" | docker login --username "$username" --password-stdin
+        docker tag buildkit-golang-nix-poc:latest fn61/buildkit-golang:nix-poc
+        docker push fn61/buildkit-golang:nix-poc
